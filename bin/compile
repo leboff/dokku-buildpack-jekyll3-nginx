@@ -8,6 +8,7 @@ set -o pipefail
 BUILD_DIR=$1
 CACHE_DIR=$2
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
+DEFAULT_RUBY_VERSION="2.2.1"
 
 mkdir -p $BUILD_DIR $CACHE_DIR
 
@@ -19,15 +20,29 @@ function indent() {
   esac
 }
 
+function rbenv_install() {
+  rbenv install $1
+  rbenv local $1
+  rbenv global $1
+}
+
 if [[ `ruby -v` == "ruby 1"* ]]; then
-  echo "-----> Installing Ruby 2.2.1"
   git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
-  git clone https://github.com/garnieretienne/rvm-download.git ~/.rbenv/plugins/rvm-download
+  git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+
   export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
-  rbenv download 2.2.1
-  rbenv rehash
-  rbenv local 2.2.1
-  rbenv global 2.2.1
+
+  if [ -f $BUILD_DIR/.ruby-version ]; then
+    echo "-----> Reading Ruby version from .ruby-version"
+    RUBY_VERSION=$(<$BUILD_DIR/.ruby-version)
+
+    echo "-----> Installing Ruby `echo $RUBY_VERSION`"
+    rbenv_install $RUBY_VERSION
+  else
+    echo "-----> Installing Ruby `echo $DEFAULT_RUBY_VERSION`"
+    rbenv_install $DEFAULT_RUBY_VERSION
+  fi
+
 else
   echo "-----> Using `ruby -v`"
 fi
