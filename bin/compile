@@ -32,7 +32,7 @@ function rbenv_install() {
     rbenv install $1
     cp -R ~/.rbenv/versions/$1 $CACHE_DIR/versions/$1
   fi
-
+  rbenv -l
   rbenv local $1
   rbenv global $1
 
