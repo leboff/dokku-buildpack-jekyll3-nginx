@@ -21,11 +21,12 @@ function indent() {
 }
 
 function rbenv_install() {
-  rbenv init
+  
   if [ -d $CACHE_DIR/versions/$1 ]; then
     echo "-----> Restoring cache"
     mkdir -p ~/.rbenv/versions/$1
     cp -R  $CACHE_DIR/versions/$1/* ~/.rbenv/versions/$1
+    rbenv rehash
   else
     echo "-----> Cache miss installing Ruby version $1"
     mkdir -p $CACHE_DIR/versions
