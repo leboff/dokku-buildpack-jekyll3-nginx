@@ -35,11 +35,10 @@ function rbenv_install() {
 
 
   echo "-----> Setting Ruby Version to $1"
-  ls ~/.rbenv
-  ls ~/.rbenv/versions
-  rbenv local $1
-  rbenv global $1
-
+  rbenv versions
+  rbenv  --debug local $1
+  rbenv  --debug global $1
+  rbenv versions
 }
 
 
