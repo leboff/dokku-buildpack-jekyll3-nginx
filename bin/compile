@@ -21,10 +21,24 @@ function indent() {
 }
 
 function rbenv_install() {
-  rbenv install $1
+
+  if [ -d $CACHE_DIR/versions/$1 ]; then
+    echo "-----> Restoring cache"
+    cp -R $CACHE_DIR/versions/$1/* ~/.rbenv/versions/$1
+  else
+    echo "-----> Cache miss installing Ruby version $1"
+    mkdir -p $CACHE_DIR/versions
+    rbenv install $1
+    cp -R ~/.rbenv/versions/$1 $CACHE_DIR/versions/$1
+  fi
+
   rbenv local $1
   rbenv global $1
+
 }
+
+
+
 
 if [[ `ruby -v` == "ruby 1"* ]]; then
   git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
@@ -46,6 +60,8 @@ if [[ `ruby -v` == "ruby 1"* ]]; then
 else
   echo "-----> Using `ruby -v`"
 fi
+
+
 
 # build nginx config unless overridden by user
 if [ ! -f $BUILD_DIR/conf/nginx.conf ]; then
