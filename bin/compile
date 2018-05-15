@@ -24,7 +24,7 @@ function rbenv_install() {
 
   if [ -d $CACHE_DIR/versions/$1 ]; then
     echo "-----> Restoring cache"
-    mkdir -p ~/.rbenv/versions
+    mkdir -p ~/.rbenv/versions/$1
     cp -R $CACHE_DIR/versions/$1/* ~/.rbenv/versions/$1
   else
     echo "-----> Cache miss installing Ruby version $1"
