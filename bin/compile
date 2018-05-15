@@ -25,14 +25,17 @@ function rbenv_install() {
   if [ -d $CACHE_DIR/versions/$1 ]; then
     echo "-----> Restoring cache"
     mkdir -p ~/.rbenv/versions/$1
-    cp -R $CACHE_DIR/versions/$1/* ~/.rbenv/versions/$1
+    cp -R  $CACHE_DIR/versions/$1/* ~/.rbenv/versions/$1
   else
     echo "-----> Cache miss installing Ruby version $1"
     mkdir -p $CACHE_DIR/versions
     rbenv install $1
     cp -R ~/.rbenv/versions/$1 $CACHE_DIR/versions/$1
   fi
-  rbenv -l
+
+
+  echo "-----> Setting Ruby Version to $1"
+  rbenv install -l
   rbenv local $1
   rbenv global $1
 
