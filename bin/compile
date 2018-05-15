@@ -21,7 +21,7 @@ function indent() {
 }
 
 function rbenv_install() {
-
+  rbenv init
   if [ -d $CACHE_DIR/versions/$1 ]; then
     echo "-----> Restoring cache"
     mkdir -p ~/.rbenv/versions/$1
