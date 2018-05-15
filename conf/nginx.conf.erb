@@ -26,6 +26,11 @@ http {
       rewrite \/(.*)\/$ /$1 permanent;
     }
 
+
+    location ~*  \.(jpg|jpeg|png|gif|ico|css|js)$ {
+      expires 365d;
+    }
+
     try_files $uri $uri.html $uri/ =404;
   }
 }

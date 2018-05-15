@@ -36,6 +36,7 @@ function rbenv_install() {
 
 
   echo "-----> Setting Ruby Version to $1"
+  
   rbenv local $1
   rbenv global $1
 }
